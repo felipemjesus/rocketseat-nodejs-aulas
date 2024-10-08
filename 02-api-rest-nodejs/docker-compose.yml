@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   app:
-    image: node:latest
+    image: node:20.17.0
     container_name: "rocketseat-nodejs-02-api-rest"
     ports:
       - "3333:3333"
