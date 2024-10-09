@@ -48,7 +48,7 @@ export async function transactionsRoutes(app: FastifyInstance) {
     return { summary }
   })
 
-  app.post('/', preHandler, async (request, reply) => {
+  app.post('/', async (request, reply) => {
     let sessionId = request.cookies.sessionId
     if (!sessionId) {
       sessionId = crypto.randomUUID()
