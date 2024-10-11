@@ -1,7 +1,7 @@
-import fastify from "fastify";
+import fastify from 'fastify'
 
-export const app = fastify();
+export const app = fastify()
 
-app.get("/", () => {
-    return "API SOLID";
+app.get('/', () => {
+  return 'API SOLID'
 })
