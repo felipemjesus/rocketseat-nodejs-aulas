@@ -3,6 +3,7 @@ import { UsersService } from './users-service'
 import { compare } from 'bcryptjs'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { aw } from 'vitest/dist/chunks/reporters.C4ZHgdxQ'
 
 let usersRepository: InMemoryUsersRepository
 let usersService: UsersService
@@ -51,6 +52,29 @@ describe('UsersService', () => {
         name: 'John Doe',
         email,
         password: '123456',
+      }),
+    ).rejects.toBeInstanceOf(UserAlreadyExistsError)
+  })
+
+  it('should be able to get user profile', async () => {
+    const { user } = await usersService.create({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      password: '123456',
+    })
+
+    const { user: userProfile } = await usersService.getUserProfile({
+      userId: user.id,
+    })
+
+    expect(userProfile.id).toEqual(expect.any(String))
+    expect(userProfile.name).toEqual('John Doe')
+  })
+
+  it('should not be able to get user profile with wrong id', async () => {
+    await expect(() =>
+      usersService.getUserProfile({
+        userId: 'non-existing-id',
       }),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
   })
