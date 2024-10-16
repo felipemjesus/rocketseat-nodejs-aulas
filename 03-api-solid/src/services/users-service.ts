@@ -1,5 +1,6 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { hash } from 'bcryptjs'
+import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
 interface CreateUserParams {
   name: string
@@ -13,7 +14,7 @@ export class UsersService {
   async create({ name, email, password }: CreateUserParams) {
     const userExists = await this.usersRepository.findByEmail(email)
     if (userExists) {
-      throw new Error('User already exists.')
+      throw new UserAlreadyExistsError()
     }
 
     const password_hash = await hash(password, 6)
