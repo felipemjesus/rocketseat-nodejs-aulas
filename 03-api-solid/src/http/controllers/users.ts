@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { create } from '@/services/users'
+import { UsersService } from '@/services/users-service'
+import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users-repository'
 
 export const createUser = async (
   request: FastifyRequest,
@@ -15,7 +16,10 @@ export const createUser = async (
   const { name, email, password } = createUserBody.parse(request.body)
 
   try {
-    const user = await create({
+    const usersRepository = new PrismaUsersRepository()
+    const usersService = new UsersService(usersRepository)
+
+    const user = await usersService.create({
       name,
       email,
       password,
