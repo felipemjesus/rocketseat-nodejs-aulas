@@ -34,6 +34,10 @@ interface GetMetricsByUserIdResponse {
   checkInsCount: number
 }
 
+interface ValidateCheckInRequest {
+  checkInId: string
+}
+
 export class CheckInsService {
   constructor(
     private checkInsRepository: CheckInsRepository,
@@ -97,5 +101,23 @@ export class CheckInsService {
   }: GetMetricsByUserId): Promise<GetMetricsByUserIdResponse> {
     const checkInsCount = await this.checkInsRepository.countByUserId(userId)
     return { checkInsCount }
+  }
+
+  async validateCheckIn({
+    checkInId,
+  }: ValidateCheckInRequest): Promise<CheckinResponse> {
+    const checkIn = await this.checkInsRepository.findById(checkInId)
+
+    if (!checkIn) {
+      throw new ResourceNotFoundError()
+    }
+
+    checkIn.validated_at = new Date()
+
+    await this.checkInsRepository.save(checkIn)
+
+    return {
+      checkIn,
+    }
   }
 }
