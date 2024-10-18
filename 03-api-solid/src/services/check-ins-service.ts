@@ -26,6 +26,14 @@ interface GetAllHistoryByUserResponse {
   checkIns: CheckIn[]
 }
 
+interface GetMetricsByUserId {
+  userId: string
+}
+
+interface GetMetricsByUserIdResponse {
+  checkInsCount: number
+}
+
 export class CheckInsService {
   constructor(
     private checkInsRepository: CheckInsRepository,
@@ -82,5 +90,12 @@ export class CheckInsService {
       page,
     )
     return { checkIns }
+  }
+
+  async getMetricsByUserId({
+    userId,
+  }: GetMetricsByUserId): Promise<GetMetricsByUserIdResponse> {
+    const checkInsCount = await this.checkInsRepository.countByUserId(userId)
+    return { checkInsCount }
   }
 }
