@@ -6,6 +6,7 @@ import { Decimal } from '@prisma/client/runtime/library'
 import { MaxNumberOfCheckInsError } from './errors/max-number-of-check-ins-error'
 import { MaxDistanceError } from './errors/max-distance-error'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { LateCheckInValidationError } from './errors/late-check-in-validation-error'
 
 let checkInsRepository: InMemoryCheckInsRepository
 let gymsRepository: InMemoryGymsRepository
@@ -187,5 +188,24 @@ describe('CheckInsService', () => {
         checkInId: 'inexistent-check-in-id',
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
+  })
+
+  it('should be able to validate the check-in after 20 minutes of its creation', async () => {
+    vi.setSystemTime(new Date(2024, 9, 17, 13, 0, 0))
+
+    const createdCheckIn = await checkInsRepository.create({
+      user_id: 'user-01',
+      gym_id: 'gym-01',
+    })
+
+    const twintyOneMinutesInMs = 1000 * 60 * 21
+
+    vi.advanceTimersByTime(twintyOneMinutesInMs)
+
+    await expect(() =>
+      checkInsService.validateCheckIn({
+        checkInId: createdCheckIn.id,
+      }),
+    ).rejects.toBeInstanceOf(LateCheckInValidationError)
   })
 })
