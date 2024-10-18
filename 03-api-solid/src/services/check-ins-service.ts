@@ -17,6 +17,15 @@ interface CheckinResponse {
   checkIn: CheckIn
 }
 
+interface GetAllHistoryByUser {
+  userId: string
+  page: number
+}
+
+interface GetAllHistoryByUserResponse {
+  checkIns: CheckIn[]
+}
+
 export class CheckInsService {
   constructor(
     private checkInsRepository: CheckInsRepository,
@@ -62,5 +71,16 @@ export class CheckInsService {
     })
 
     return { checkIn }
+  }
+
+  async getAllHistoryByUser({
+    userId,
+    page = 1,
+  }: GetAllHistoryByUser): Promise<GetAllHistoryByUserResponse> {
+    const checkIns = await this.checkInsRepository.findManyByUserId(
+      userId,
+      page,
+    )
+    return { checkIns }
   }
 }
