@@ -13,6 +13,15 @@ interface GymResponse {
   gym: Gym
 }
 
+interface SearchGymsRequest {
+  query: string
+  page: number
+}
+
+interface SearchGymsResponse {
+  gyms: Gym[]
+}
+
 export class GymsService {
   constructor(private gymsRepository: GymsRepository) {}
 
@@ -32,5 +41,14 @@ export class GymsService {
     })
 
     return { gym }
+  }
+
+  async search({
+    query,
+    page,
+  }: SearchGymsRequest): Promise<SearchGymsResponse> {
+    const gyms = await this.gymsRepository.searchMany(query, page)
+
+    return { gyms }
   }
 }
