@@ -6,7 +6,6 @@ import { getDistanceBetweenCoordinates } from '@/utils/get-distance-between-coor
 import { MaxNumberOfCheckInsError } from './errors/max-number-of-check-ins-error'
 import { MaxDistanceError } from './errors/max-distance-error'
 import dayjs from 'dayjs'
-import { L } from 'vitest/dist/chunks/reporters.C4ZHgdxQ'
 import { LateCheckInValidationError } from './errors/late-check-in-validation-error'
 
 interface CreateCheckinRequest {
