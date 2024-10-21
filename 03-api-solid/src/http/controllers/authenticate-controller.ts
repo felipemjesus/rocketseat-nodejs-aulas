@@ -17,12 +17,21 @@ export const authenticate = async (
   try {
     const authenticateService = makeAuthenticateService()
 
-    const user = await authenticateService.execute({
+    const { user } = await authenticateService.execute({
       email,
       password,
     })
 
-    return reply.status(200).send(user)
+    const token = await reply.jwtSign(
+      {},
+      {
+        sign: {
+          sub: user.id,
+        },
+      },
+    )
+
+    return reply.status(200).send({ token })
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {
       return reply.status(400).send({ message: error.message })

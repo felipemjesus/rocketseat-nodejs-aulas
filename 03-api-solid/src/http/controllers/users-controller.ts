@@ -33,3 +33,20 @@ export const createUser = async (
     throw error
   }
 }
+
+export const getUserProfile = async (
+  request: FastifyRequest,
+  reply: FastifyReply,
+) => {
+  await request.jwtVerify()
+
+  const userId = request.user.sub
+
+  const usersService = makeUsersService()
+
+  const { user } = await usersService.getUserProfile({
+    userId,
+  })
+
+  return reply.status(200).send(user)
+}
