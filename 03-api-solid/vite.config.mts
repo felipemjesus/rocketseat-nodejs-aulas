@@ -7,4 +7,7 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 51204,
   },
+  test: {
+    environmentMatchGlobs: [['src/http/controllers/**', 'prisma']],
+  },
 })
