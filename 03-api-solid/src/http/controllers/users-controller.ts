@@ -38,8 +38,6 @@ export const getUserProfile = async (
   request: FastifyRequest,
   reply: FastifyReply,
 ) => {
-  await request.jwtVerify()
-
   const userId = request.user.sub
 
   const usersService = makeUsersService()
@@ -48,5 +46,10 @@ export const getUserProfile = async (
     userId,
   })
 
-  return reply.status(200).send(user)
+  return reply.status(200).send({
+    user: {
+      ...user,
+      password_hash: undefined,
+    },
+  })
 }
