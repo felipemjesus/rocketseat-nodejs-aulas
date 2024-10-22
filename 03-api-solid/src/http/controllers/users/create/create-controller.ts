@@ -3,10 +3,7 @@ import { z } from 'zod'
 import { UserAlreadyExistsError } from '@/services/errors/user-already-exists-error'
 import { makeUsersService } from '@/services/factories/make-users-service'
 
-export const createUser = async (
-  request: FastifyRequest,
-  reply: FastifyReply,
-) => {
+export const create = async (request: FastifyRequest, reply: FastifyReply) => {
   const createUserBody = z.object({
     name: z.string(),
     email: z.string().email(),
@@ -32,24 +29,4 @@ export const createUser = async (
 
     throw error
   }
-}
-
-export const getUserProfile = async (
-  request: FastifyRequest,
-  reply: FastifyReply,
-) => {
-  const userId = request.user.sub
-
-  const usersService = makeUsersService()
-
-  const { user } = await usersService.getUserProfile({
-    userId,
-  })
-
-  return reply.status(200).send({
-    user: {
-      ...user,
-      password_hash: undefined,
-    },
-  })
 }
