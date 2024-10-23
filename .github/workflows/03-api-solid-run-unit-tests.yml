@@ -2,14 +2,14 @@ name: 03 API SOLID Run Unit Tests
 
 on: [push]
 
+defaults:
+  run:
+    working-directory: 03-api-solid
+
 jobs:
   run-unit-tests:
     name: Run Unit Tests
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ${{ github.workspace }}/03-api-solid
     steps:
       - uses: actions/checkout@v3
       
