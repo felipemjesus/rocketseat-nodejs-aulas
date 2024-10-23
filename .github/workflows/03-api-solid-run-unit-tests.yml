@@ -8,18 +8,16 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./03-api-solid
+        shell: bash
+        working-directory: ${{ github.workspace }}/03-api-solid
     steps:
       - uses: actions/checkout@v3
       
       - uses: actions/setup-node@v3
-        working-directory: ./03-api-solid
         with:
           node-version: 20
           cache: 'npm'
       
       - run: npm ci
-        working-directory: ./03-api-solid
       
       - run: npm run test
-        working-directory: ./03-api-solid
