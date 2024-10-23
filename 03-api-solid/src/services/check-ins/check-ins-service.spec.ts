@@ -3,10 +3,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { CheckInsService } from './check-ins-service'
 import { InMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gyms-repository'
 import { Decimal } from '@prisma/client/runtime/library'
-import { MaxNumberOfCheckInsError } from './errors/max-number-of-check-ins-error'
-import { MaxDistanceError } from './errors/max-distance-error'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
-import { LateCheckInValidationError } from './errors/late-check-in-validation-error'
+import { MaxDistanceError } from '../errors/max-distance-error'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { LateCheckInValidationError } from '../errors/late-check-in-validation-error'
+import { MaxNumberOfCheckInsError } from '../errors/max-number-of-check-ins-error'
 
 let checkInsRepository: InMemoryCheckInsRepository
 let gymsRepository: InMemoryGymsRepository

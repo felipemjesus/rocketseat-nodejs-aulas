@@ -53,8 +53,6 @@ describe('Check-in Metrics (e2e)', () => {
       .set('Authorization', `Bearer ${token}`)
       .send()
 
-    console.log(response.body)
-
     expect(response.statusCode).toEqual(200)
     expect(response.body.checkInsCount).toEqual(2)
   })

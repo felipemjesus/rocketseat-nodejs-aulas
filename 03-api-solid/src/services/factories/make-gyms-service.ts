@@ -1,5 +1,5 @@
 import { PrismaGymsRepository } from '@/repositories/prisma/prisma-gyms-repository'
-import { GymsService } from '../gyms-service'
+import { GymsService } from '../gyms/gyms-service'
 
 export const makeGymsService = () => {
   const gymsRepository = new PrismaGymsRepository()

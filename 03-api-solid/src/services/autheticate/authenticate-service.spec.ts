@@ -2,7 +2,7 @@ import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-user
 import { beforeEach, describe, expect, it } from 'vitest'
 import { AuthenticateService } from './authenticate-service'
 import { hash } from 'bcryptjs'
-import { InvalidCredentialsError } from './errors/invalid-credentiais-error'
+import { InvalidCredentialsError } from '../errors/invalid-credentiais-error'
 
 let usersRepository: InMemoryUsersRepository
 let authenticateService: AuthenticateService
