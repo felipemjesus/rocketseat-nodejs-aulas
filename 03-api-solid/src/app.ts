@@ -9,6 +9,8 @@ import { checkInsRoutes } from './http/controllers/check-ins/routes'
 
 export const app = fastify()
 
+app.register(fastifyCookie)
+
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
   cookie: {
@@ -19,8 +21,6 @@ app.register(fastifyJwt, {
     expiresIn: '10m',
   },
 })
-
-app.register(fastifyCookie)
 
 app.register(usersRoutes)
 app.register(gymsRoutes)
