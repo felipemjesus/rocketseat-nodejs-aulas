@@ -1,4 +1,4 @@
-name: Run Unit Tests
+name: 03 API SOLID Run Unit Tests
 
 on: [push]
 
@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - run: cd 03-api-solid
       
       - uses: actions/setup-node@v3
         with:
