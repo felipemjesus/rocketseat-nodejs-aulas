@@ -4,10 +4,6 @@ import { Answer } from '@/domain/forum/enterprise/entities/answer'
 export class InMemoryAnswerRepository implements AnswerRepository {
   public items: Answer[] = []
 
-  async create(answer: Answer) {
-    this.items.push(answer)
-  }
-
   async findById(answerId: string): Promise<Answer | null> {
     const answer = this.items.find((item) => item.id.toString() === answerId)
     if (!answer) {
@@ -15,6 +11,17 @@ export class InMemoryAnswerRepository implements AnswerRepository {
     }
 
     return answer
+  }
+
+  async create(answer: Answer) {
+    this.items.push(answer)
+  }
+
+  async save(answer: Answer) {
+    const index = this.items.findIndex((item) => item.id === answer.id)
+    if (index >= 0) {
+      this.items[index] = answer
+    }
   }
 
   async delete(answer: Answer) {
