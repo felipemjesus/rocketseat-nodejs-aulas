@@ -3,7 +3,7 @@ import { QuestionRepository } from '../repositories/question-repository'
 import { Question } from '../../enterprise/entities/question'
 
 interface CreateQuestionUseCaseRequest {
-  autorId: string
+  authorId: string
   title: string
   content: string
 }
@@ -16,12 +16,12 @@ export class CreateQuestionUseCase {
   constructor(private questionRepository: QuestionRepository) {}
 
   async execute({
-    autorId,
+    authorId,
     title,
     content,
   }: CreateQuestionUseCaseRequest): Promise<CreateQuestionUseCaseResponse> {
     const question = Question.create({
-      authorId: new UniqueEntityId(autorId),
+      authorId: new UniqueEntityId(authorId),
       title,
       content,
     })

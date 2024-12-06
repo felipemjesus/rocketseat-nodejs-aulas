@@ -12,7 +12,7 @@ describe('Create Question', () => {
 
   it('should be able to create a question', async () => {
     const { question } = await createQuestion.execute({
-      autorId: '1',
+      authorId: '1',
       title: 'Nova pergunta',
       content: 'Conteúdo da pergunta',
     })
