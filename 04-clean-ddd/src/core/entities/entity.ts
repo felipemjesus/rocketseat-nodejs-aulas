@@ -12,4 +12,14 @@ export class Entity<Props> {
   get id() {
     return this._id
   }
+
+  public equals(entity: Entity<any>) {
+    if (entity === this) {
+      return true
+    }
+    if (entity.id === this.id) {
+      return true
+    }
+    return false
+  }
 }
