@@ -1,5 +1,6 @@
 volumes:
   postgres:
+  postgres-05:
 
 services:
   app:
@@ -19,10 +20,22 @@ services:
     image: bitnami/postgresql
     container_name: "rocketseat-nodejs-aulas-db-03"
     ports:
-      - "5439:5432"
+      - "5433:5432"
     environment:
       POSTGRES_PASSWORD: docker
       POSTGRES_USER: docker
       POSTGRES_DB: apisolid
     volumes:
       - postgres:/data/postgres
+
+  db-05:
+    image: bitnami/postgresql
+    container_name: "rocketseat-nodejs-aulas-db-05"
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: docker
+      POSTGRES_DB: nestclean
+    volumes:
+      - postgres-05:/data/postgres
