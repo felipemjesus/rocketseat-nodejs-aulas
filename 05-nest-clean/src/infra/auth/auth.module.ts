@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
-import { Env } from '@/env'
-import { FileModule } from '@/services/file/file.module'
-import { FileService } from '@/services/file/file.service'
+import { Env } from '@/infra/env'
+import { FileModule } from '@/infra/services/file/file.module'
+import { FileService } from '@/infra/services/file/file.service'
 import { JwtStrategy } from './jwt.strategy'
 
 @Module({

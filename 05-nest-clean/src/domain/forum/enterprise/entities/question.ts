@@ -104,7 +104,7 @@ export class Question extends AggregateRoot<QuestionProps> {
         ...props,
         slug: props.slug ?? Slug.createFromText(props.title),
         attachments: props.attachments ?? new QuestionAttachmentList(),
-        createAt: props.createdAt ?? new Date(),
+        createdAt: props.createdAt ?? new Date(),
       },
       id,
     )
