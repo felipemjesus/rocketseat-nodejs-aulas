@@ -1,13 +1,13 @@
 import {
-  ConflictException,
   Body,
   Controller,
   HttpCode,
   Post,
   UsePipes,
+  UnauthorizedException,
 } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
-import { hash } from 'bcryptjs'
+import { compare } from 'bcryptjs'
 import { z } from 'zod'
 import { ZodValidationPipe } from 'src/pipes/zod-validation.pipe'
 import { JwtService } from '@nestjs/jwt'
@@ -32,26 +32,28 @@ export class AuthenticateController {
   async handle(@Body() body: AuthenticateBodySchema) {
     const { email, password } = authenticateSchema.parse(body)
 
-    const hashedPassword = await hash(password, 8)
-
     const user = await this.prisma.user.findUnique({
       where: {
         email,
       },
     })
 
-    if (!user) {
-      throw new ConflictException('User not found.')
+    let isPasswordValid = false
+
+    if (user) {
+      isPasswordValid = await compare(password, user.password)
     }
 
-    const token = this.jwtService.sign({
+    if (!user || !isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials')
+    }
+
+    const accessToken = this.jwtService.sign({
       sub: user.id,
     })
 
     return {
-      token,
-      user,
-      hashedPassword,
+      access_token: accessToken,
     }
   }
 }
