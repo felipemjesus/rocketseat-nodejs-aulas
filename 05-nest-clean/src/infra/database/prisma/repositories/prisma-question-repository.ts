@@ -9,7 +9,7 @@ import { PrismaQuestionMapper } from '../mappers/prisma-question-mapper'
 export class PrismaQuestionRepository implements QuestionRepository {
   constructor(private prisma: PrismaService) {}
   async findById(id: string): Promise<Question | null> {
-    const question = this.prisma.question.findUnique({
+    const question = await this.prisma.question.findUnique({
       where: {
         id,
       },
@@ -23,7 +23,7 @@ export class PrismaQuestionRepository implements QuestionRepository {
   }
 
   async findBySlug(slug: string): Promise<Question | null> {
-    const question = this.prisma.question.findUnique({
+    const question = await this.prisma.question.findUnique({
       where: {
         slug,
       },
@@ -37,7 +37,7 @@ export class PrismaQuestionRepository implements QuestionRepository {
   }
 
   async findManyRecent({ page }: PaginationParams): Promise<Question[]> {
-    const questions = this.prisma.question.findMany({
+    const questions = await this.prisma.question.findMany({
       orderBy: {
         createdAt: 'desc',
       },
