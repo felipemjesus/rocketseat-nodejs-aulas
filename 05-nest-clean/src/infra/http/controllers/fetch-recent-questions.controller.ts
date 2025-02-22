@@ -1,5 +1,5 @@
 import { Controller, Get, HttpCode, Query, UseGuards } from '@nestjs/common'
-import { PrismaService } from '@/infra/prisma/prisma.service'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { z } from 'zod'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation.pipe'
