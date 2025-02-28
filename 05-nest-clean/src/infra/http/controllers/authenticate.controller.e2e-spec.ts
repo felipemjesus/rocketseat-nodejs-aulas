@@ -35,7 +35,7 @@ describe('AuthenticateAccountController (e2e)', () => {
       password: '123456',
     })
 
-    expect(response.statusCode).toBe(200)
+    expect(response.statusCode).toBe(201)
     expect(response.body).toEqual({
       access_token: expect.any(String),
     })
