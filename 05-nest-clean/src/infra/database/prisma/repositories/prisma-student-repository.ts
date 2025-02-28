@@ -7,6 +7,7 @@ import { PrismaStudentMapper } from '../mappers/prisma-student-mapper'
 @Injectable()
 export class PrismaStudentRepository implements StudentRepository {
   constructor(private prisma: PrismaService) {}
+
   async findByEmail(email: string): Promise<Student | null> {
     const student = await this.prisma.user.findUnique({
       where: {
