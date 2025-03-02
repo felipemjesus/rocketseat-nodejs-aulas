@@ -21,7 +21,7 @@ describe('Delete Comment On Question', () => {
     await inMemoryQuestionCommentRepository.create(questionComment)
 
     await deleteQuestionComment.execute({
-      questionContentId: questionComment.id.toString(),
+      questionCommentId: questionComment.id.toString(),
       authorId: questionComment.authorId.toString(),
     })
 
@@ -36,7 +36,7 @@ describe('Delete Comment On Question', () => {
     await inMemoryQuestionCommentRepository.create(questionComment)
 
     const result = await deleteQuestionComment.execute({
-      questionContentId: questionComment.id.toString(),
+      questionCommentId: questionComment.id.toString(),
       authorId: 'author-2',
     })
 

@@ -20,7 +20,7 @@ describe('Answer question', () => {
   test('should be able to answer a question', async () => {
     const result = await answerQuestion.execute({
       questionId: '1',
-      instructorId: '1',
+      authorId: '1',
       content: 'Nova resposta',
       attachementsIds: ['1', '2'],
     })
