@@ -15,6 +15,7 @@ import { EditQuestionUseCase } from '@/domain/forum/application/use-cases/edit-q
 const editQuestionSchema = z.object({
   title: z.string(),
   content: z.string(),
+  attachments: z.array(z.string().uuid()).default([]),
 })
 
 type EditQuestionBodySchema = z.infer<typeof editQuestionSchema>
@@ -32,13 +33,13 @@ export class EditQuestionController {
     @CurrentUser() user: TokenPayload,
     @Param('id') questionId: string,
   ) {
-    const { title, content } = editQuestionSchema.parse(body)
+    const { title, content, attachments } = editQuestionSchema.parse(body)
 
     const result = await this.editQuestion.execute({
       title,
       content,
       authorId: user.sub,
-      attachmentsIds: [],
+      attachmentsIds: attachments,
       questionId,
     })
 
