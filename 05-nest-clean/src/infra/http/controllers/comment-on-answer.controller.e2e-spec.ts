@@ -5,20 +5,22 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
+import { AnswerFactory } from 'test/factories/make-answer'
 import { QuestionFactory } from 'test/factories/make-question'
 import { StudentFactory } from 'test/factories/make-student'
 
-describe('CommentOnQuestionController (e2e)', () => {
+describe('CommentOnAnswerController (e2e)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
+  let answerFactory: AnswerFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory, QuestionFactory],
+      providers: [StudentFactory, QuestionFactory, AnswerFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -27,11 +29,12 @@ describe('CommentOnQuestionController (e2e)', () => {
     jwt = moduleRef.get(JwtService)
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
+    answerFactory = moduleRef.get(AnswerFactory)
 
     await app.init()
   })
 
-  test('POST /questions/:questionId/comments', async () => {
+  test('POST /answers/:answerId/comments', async () => {
     const user = await studentFactory.makePrismaStudent()
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
@@ -40,21 +43,26 @@ describe('CommentOnQuestionController (e2e)', () => {
       authorId: user.id,
     })
 
-    const questionId = question.id.toString()
+    const answer = await answerFactory.makePrismaAnswer({
+      questionId: question.id,
+      authorId: user.id,
+    })
+
+    const answerId = answer.id.toString()
 
     const response = await request(app.getHttpServer())
-      .post(`/questions/${questionId}/comments`)
+      .post(`/answers/${answerId}/comments`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        content: 'New comment',
+        content: 'New comment answer',
       })
 
     expect(response.statusCode).toBe(201)
 
     const commentOnDatabase = await prisma.comment.findFirst({
       where: {
-        questionId,
-        content: 'New comment',
+        answerId,
+        content: 'New comment answer',
       },
     })
 
