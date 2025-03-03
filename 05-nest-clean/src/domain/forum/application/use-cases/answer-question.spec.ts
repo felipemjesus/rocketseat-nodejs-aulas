@@ -22,7 +22,7 @@ describe('Answer question', () => {
       questionId: '1',
       authorId: '1',
       content: 'Nova resposta',
-      attachementsIds: ['1', '2'],
+      attachmentsIds: ['1', '2'],
     })
 
     expect(result.isRight()).toBe(true)
@@ -31,6 +31,22 @@ describe('Answer question', () => {
       inMemoryAnswerRepository.items[0].attachments.currentItems,
     ).toHaveLength(2)
     expect(inMemoryAnswerRepository.items[0].attachments.currentItems).toEqual([
+      expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
+      expect.objectContaining({ attachmentId: new UniqueEntityId('2') }),
+    ])
+  })
+
+  it('should persist attachments when creating a new answer', async () => {
+    const result = await answerQuestion.execute({
+      questionId: '1',
+      authorId: '1',
+      content: 'Conteúdo da resposta',
+      attachmentsIds: ['1', '2'],
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryAnswerAttachmentRepository.items).toHaveLength(2)
+    expect(inMemoryAnswerAttachmentRepository.items).toEqual([
       expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
       expect.objectContaining({ attachmentId: new UniqueEntityId('2') }),
     ])
