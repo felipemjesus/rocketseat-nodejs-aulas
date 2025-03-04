@@ -1,6 +1,7 @@
 volumes:
   postgres:
   postgres-05:
+  redis-05:
 
 services:
   app:
@@ -39,3 +40,11 @@ services:
       POSTGRES_DB: nestclean
     volumes:
       - postgres-05:/data/postgres
+
+  redis-05:
+    image: redis
+    container_name: "rocketseat-nodejs-aulas-redis-05"
+    ports:
+      - "6375:6379"
+    volumes:
+      - redis-05:/data
